@@ -1,0 +1,236 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: #0f1115;
+  color: #f0f0f0;
+}
+
+.site-header {
+  text-align: center;
+  padding: 32px 16px 16px;
+}
+
+.site-header h1 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* 탭 */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #2a2d36;
+  padding-bottom: 0;
+}
+
+.tab {
+  padding: 10px 16px;
+  border-radius: 8px 8px 0 0;
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab:hover { color: #ccc; background: #1a1d24; }
+.tab.active { color: #6c8eff; border-bottom-color: #6c8eff; background: transparent; }
+
+/* 패널 */
+.panel { display: none; }
+.panel.active { display: block; }
+
+.panel-desc {
+  color: #aaa;
+  font-size: 0.9rem;
+  margin: 0 0 16px;
+}
+
+/* 업로드 영역 */
+.upload-area {
+  border: 2px dashed #444;
+  border-radius: 12px;
+  padding: 40px 16px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.upload-area:hover,
+.upload-area.drag-over { border-color: #6c8eff; }
+
+.upload-area input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-area p { margin: 0; color: #aaa; font-size: 0.95rem; pointer-events: none; }
+
+/* 파일 목록 */
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.file-list li {
+  padding: 6px 10px;
+  background: #1a1d24;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  color: #ccc;
+  display: flex;
+  justify-content: space-between;
+}
+
+.file-name {
+  font-size: 0.85rem;
+  color: #6c8eff;
+  margin: 8px 0;
+  word-break: break-all;
+}
+
+/* 옵션 */
+.scale-label, .range-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #ccc;
+  margin: 12px 0;
+}
+
+select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1a1d24;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+input[type="text"] {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1a1d24;
+  color: #fff;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.split-options { margin-bottom: 4px; }
+.page-info { font-size: 0.85rem; color: #aaa; margin: 0 0 8px; }
+
+.hint {
+  font-size: 0.78rem;
+  color: #e0b84b;
+}
+
+/* 버튼 */
+button {
+  margin-top: 12px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #6c8eff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover { background: #5577e0; }
+button:disabled { background: #333; color: #666; cursor: not-allowed; }
+
+/* 진행률 */
+.progress-wrap {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+progress {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+}
+
+/* 결과 */
+.result { margin-top: 20px; }
+
+.download-btn {
+  display: block;
+  text-align: center;
+  padding: 12px 20px;
+  background: #3ddc84;
+  color: #06250f;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.download-btn:hover { background: #2cc070; }
+
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.img-grid a { display: block; }
+.img-grid img {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #333;
+  display: block;
+}
+.img-grid span {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  text-align: center;
+  margin-top: 2px;
+}
+
+.multi-links { display: flex; flex-direction: column; gap: 8px; }
+
+.site-footer {
+  text-align: center;
+  padding: 24px 16px 40px;
+  color: #777;
+  font-size: 0.8rem;
+}
+
+.site-footer a { color: #9ab2ff; }
+.site-footer nav { margin-bottom: 8px; }

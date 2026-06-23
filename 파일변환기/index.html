@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>무료 PDF 변환기 - 이미지 변환·합치기·분할 (서버 전송 없음)</title>
+<meta name="description" content="이미지를 PDF로 변환하거나, PDF를 이미지로 추출하고, PDF를 합치거나 분할하세요. 파일이 서버에 업로드되지 않고 브라우저에서만 처리됩니다." />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <h1>무료 PDF 변환기</h1>
+  <p class="subtitle">모든 처리는 <strong>브라우저에서만</strong> 이루어집니다. 파일이 서버에 전송되지 않습니다.</p>
+</header>
+
+<main class="container">
+  <nav class="tabs">
+    <button class="tab active" data-tab="img2pdf">이미지 → PDF</button>
+    <button class="tab" data-tab="pdf2img">PDF → 이미지</button>
+    <button class="tab" data-tab="merge">PDF 합치기</button>
+    <button class="tab" data-tab="split">PDF 분할</button>
+  </nav>
+
+  <!-- 이미지 → PDF -->
+  <section class="panel active" id="tab-img2pdf">
+    <p class="panel-desc">JPG, PNG 파일을 여러 장 업로드하면 한 PDF로 합쳐 다운로드합니다.</p>
+    <div class="upload-area" id="img2pdf-drop">
+      <input type="file" id="img2pdf-input" accept="image/jpeg,image/png" multiple />
+      <p>클릭하거나 이미지를 여기에 드래그 (JPG, PNG)</p>
+    </div>
+    <ul class="file-list" id="img2pdf-list"></ul>
+    <button id="img2pdf-btn" disabled>PDF로 변환하기</button>
+    <div class="progress-wrap" id="img2pdf-progress" hidden>
+      <progress id="img2pdf-bar" value="0" max="100"></progress>
+      <span id="img2pdf-pct">0%</span>
+    </div>
+    <div class="result" id="img2pdf-result" hidden>
+      <a class="download-btn" id="img2pdf-link" download="images.pdf">PDF 다운로드</a>
+    </div>
+  </section>
+
+  <!-- PDF → 이미지 -->
+  <section class="panel" id="tab-pdf2img">
+    <p class="panel-desc">PDF를 업로드하면 각 페이지를 PNG로 추출해 다운로드합니다.</p>
+    <div class="upload-area" id="pdf2img-drop">
+      <input type="file" id="pdf2img-input" accept="application/pdf" />
+      <p>클릭하거나 PDF를 여기에 드래그</p>
+    </div>
+    <p class="file-name" id="pdf2img-name"></p>
+    <label class="scale-label">
+      해상도 배율:
+      <select id="pdf2img-scale">
+        <option value="1">1× (빠름, 보통 화질)</option>
+        <option value="2" selected>2× (권장)</option>
+        <option value="3">3× (고화질, 느림)</option>
+      </select>
+    </label>
+    <button id="pdf2img-btn" disabled>이미지로 추출하기</button>
+    <div class="progress-wrap" id="pdf2img-progress" hidden>
+      <progress id="pdf2img-bar" value="0" max="100"></progress>
+      <span id="pdf2img-pct">0%</span>
+    </div>
+    <div class="result" id="pdf2img-result" hidden></div>
+  </section>
+
+  <!-- PDF 합치기 -->
+  <section class="panel" id="tab-merge">
+    <p class="panel-desc">여러 PDF를 업로드하면 순서대로 합쳐서 다운로드합니다.</p>
+    <div class="upload-area" id="merge-drop">
+      <input type="file" id="merge-input" accept="application/pdf" multiple />
+      <p>클릭하거나 PDF를 여기에 드래그 (여러 개 선택 가능)</p>
+    </div>
+    <ul class="file-list" id="merge-list"></ul>
+    <button id="merge-btn" disabled>PDF 합치기</button>
+    <div class="progress-wrap" id="merge-progress" hidden>
+      <progress id="merge-bar" value="0" max="100"></progress>
+      <span id="merge-pct">0%</span>
+    </div>
+    <div class="result" id="merge-result" hidden>
+      <a class="download-btn" id="merge-link" download="merged.pdf">합쳐진 PDF 다운로드</a>
+    </div>
+  </section>
+
+  <!-- PDF 분할 -->
+  <section class="panel" id="tab-split">
+    <p class="panel-desc">PDF를 업로드하고 페이지 범위를 입력하면 해당 페이지만 추출해 다운로드합니다.</p>
+    <div class="upload-area" id="split-drop">
+      <input type="file" id="split-input" accept="application/pdf" />
+      <p>클릭하거나 PDF를 여기에 드래그</p>
+    </div>
+    <p class="file-name" id="split-name"></p>
+    <div class="split-options" id="split-options" hidden>
+      <p class="page-info" id="split-page-info"></p>
+      <label class="range-label">
+        페이지 범위 <span class="hint">(예: 1-3, 5, 7-9 → 파일 3개로 분리)</span>
+        <input type="text" id="split-range" placeholder="예: 1-3, 5, 7-9" />
+      </label>
+    </div>
+    <button id="split-btn" disabled>PDF 분할하기</button>
+    <div class="progress-wrap" id="split-progress" hidden>
+      <progress id="split-bar" value="0" max="100"></progress>
+      <span id="split-pct">0%</span>
+    </div>
+    <div class="result" id="split-result" hidden></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <nav>
+    <a href="privacy.html">개인정보처리방침</a> ·
+    <a href="contact.html">문의하기</a>
+  </nav>
+  <p>© 2026 무료 PDF 변환기. 업로드한 파일은 서버로 전송되지 않으며 브라우저 메모리에서만 처리됩니다.</p>
+</footer>
+
+<script src="assets/js/pdf-lib.min.js"></script>
+<script type="module" src="assets/app.js"></script>
+</body>
+</html>
