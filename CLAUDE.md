@@ -20,4 +20,7 @@ python3 -m http.server 8080
 ```
 
 ## 현재 상태
-- 파일변환기/: **개발 중** — ideas/파일변환기_계획.md 참고
+- 파일변환기/: **개발 중 (Phase 3)** — 배포완료, HWP→PDF 스파이크 진행 중
+  - 배포 URL: https://change-file.mydannykim.workers.dev/
+  - 완료: Phase 1 (PDF 4종), Phase 2 (DOCX→PDF)
+  - 로드맵: ideas/파일변환기_계획.md 참고

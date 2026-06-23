@@ -106,6 +106,6 @@ npm install mammoth html2pdf.js
 ## 진행 상황
 
 - [x] Phase 1: 이미지→PDF, PDF→이미지, PDF 합치기, PDF 분할
-- [ ] Phase 2: DOCX → PDF
-- [ ] Phase 3: HWP → PDF (스파이크)
+- [x] Phase 2: DOCX → PDF
+- [ ] Phase 3: HWP → PDF (스파이크 진행 중)
 - [ ] Phase 4: PPTX → PDF (서버)

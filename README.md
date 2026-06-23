@@ -6,15 +6,15 @@
 
 | 프로젝트 | 설명 | 상태 | 배포 |
 |---|---|---|---|
-| [파일변환기](./파일변환기) | 이미지↔PDF 변환, PDF 합치기/분할, 브라우저에서만 처리 | 개발 중 (Phase 1) | Cloudflare Pages |
+| [파일변환기](./파일변환기) | 이미지↔PDF, DOCX→PDF, PDF 합치기/분할, 브라우저에서만 처리 | 개발 중 (Phase 3) | [배포완료](https://change-file.mydannykim.workers.dev/) |
 
 ## 로드맵
 
 ### 파일변환기
-- [ ] **Phase 1** (지금): 이미지→PDF, PDF→이미지, PDF 합치기, PDF 분할 — 클라이언트사이드
-- [ ] **Phase 2**: DOCX→PDF (`mammoth.js`) — 서식 깨짐 한계 명시 후 출시
-- [ ] **Phase 3**: HWP→PDF — 라이브러리 스파이크(1주) 후 가능 여부 결정
-- [ ] **Phase 4**: PPTX↔PDF, 서버 필요 (VPS + LibreOffice headless) — 배포 경험 쌓으면서 도전
+- [x] **Phase 1**: 이미지→PDF, PDF→이미지, PDF 합치기, PDF 분할
+- [x] **Phase 2**: DOCX→PDF (`mammoth.js` + `html2pdf.js`)
+- [ ] **Phase 3**: HWP→PDF — `@ohah/hwpjs` 스파이크 중
+- [ ] **Phase 4**: PPTX→PDF — 서버 필요 (VPS + LibreOffice headless)
 
 ## 운영 원칙
 
