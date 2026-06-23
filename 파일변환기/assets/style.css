@@ -35,6 +35,7 @@ body {
 /* 탭 */
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   margin-bottom: 20px;
   border-bottom: 1px solid #2a2d36;
@@ -42,16 +43,17 @@ body {
 }
 
 .tab {
-  padding: 10px 16px;
+  padding: 10px 14px;
   border-radius: 8px 8px 0 0;
   border: none;
   background: transparent;
   color: #888;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
+  white-space: nowrap;
 }
 
 .tab:hover { color: #ccc; background: #1a1d24; }
@@ -64,6 +66,16 @@ body {
 .panel-desc {
   color: #aaa;
   font-size: 0.9rem;
+  margin: 0 0 16px;
+}
+
+.caution {
+  font-size: 0.85rem;
+  color: #e0b84b;
+  background: #2a2200;
+  border: 1px solid #5a4a00;
+  border-radius: 8px;
+  padding: 10px 14px;
   margin: 0 0 16px;
 }
 

@@ -195,7 +195,8 @@ document.getElementById('merge-btn').addEventListener('click', async () => {
   }
 });
 
-// ── 4. PDF 분할 ───────────────────────────────────────────────────────────────
+// ── 4. PDF 분할 ──────────────────────────────────────────────────────────────
+
 let splitFile = null;
 let splitPageCount = 0;
 
@@ -238,6 +239,69 @@ function parseRanges(input, maxPage) {
   }
   return ranges.length ? ranges : null;
 }
+
+// ── 5. DOCX → PDF ────────────────────────────────────────────────────────────
+let docx2pdfFile = null;
+
+enableDrop(
+  document.getElementById('docx2pdf-drop'),
+  document.getElementById('docx2pdf-input'),
+  files => {
+    docx2pdfFile = files.find(f => f.name.endsWith('.docx')) || null;
+    document.getElementById('docx2pdf-name').textContent = docx2pdfFile ? docx2pdfFile.name : '';
+    document.getElementById('docx2pdf-btn').disabled = !docx2pdfFile;
+    document.getElementById('docx2pdf-result').hidden = true;
+  }
+);
+
+document.getElementById('docx2pdf-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('docx2pdf-btn');
+  btn.disabled = true;
+  const progressWrap = document.getElementById('docx2pdf-progress');
+  progressWrap.hidden = false;
+  setProgress('docx2pdf-bar', 'docx2pdf-pct', null, 10);
+
+  try {
+    const arrayBuffer = await docx2pdfFile.arrayBuffer();
+    setProgress('docx2pdf-bar', 'docx2pdf-pct', null, 30);
+
+    const result = await mammoth.convertToHtml({ arrayBuffer });
+    setProgress('docx2pdf-bar', 'docx2pdf-pct', null, 60);
+
+    const baseName = docx2pdfFile.name.replace(/\.docx$/i, '');
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: baseName + '.pdf',
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    // html2pdf는 내부적으로 DOM 조작이 필요해 임시 컨테이너 사용
+    const container = document.createElement('div');
+    container.style.cssText = 'font-family:serif;font-size:12pt;line-height:1.6;color:#000;background:#fff;padding:0;';
+    container.innerHTML = result.value;
+    document.body.appendChild(container);
+
+    setProgress('docx2pdf-bar', 'docx2pdf-pct', null, 80);
+
+    const pdfBlob = await html2pdf().set(opt).from(container).outputPdf('blob');
+    document.body.removeChild(container);
+
+    setProgress('docx2pdf-bar', 'docx2pdf-pct', null, 100);
+
+    const url = URL.createObjectURL(pdfBlob);
+    const link = document.getElementById('docx2pdf-link');
+    link.href = url;
+    link.download = baseName + '.pdf';
+    document.getElementById('docx2pdf-result').hidden = false;
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch (e) {
+    alert('변환 중 오류가 발생했습니다: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
 
 document.getElementById('split-btn').addEventListener('click', async () => {
   const btn = document.getElementById('split-btn');

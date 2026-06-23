@@ -20,6 +20,7 @@
     <button class="tab" data-tab="pdf2img">PDF → 이미지</button>
     <button class="tab" data-tab="merge">PDF 합치기</button>
     <button class="tab" data-tab="split">PDF 분할</button>
+    <button class="tab" data-tab="docx2pdf">DOCX → PDF</button>
   </nav>
 
   <!-- 이미지 → PDF -->
@@ -104,6 +105,25 @@
     </div>
     <div class="result" id="split-result" hidden></div>
   </section>
+
+  <!-- DOCX → PDF -->
+  <section class="panel" id="tab-docx2pdf">
+    <p class="panel-desc">Word 문서(.docx)를 PDF로 변환합니다. 파일이 서버에 업로드되지 않습니다.</p>
+    <p class="caution">⚠️ 표, 복잡한 서식, 특수 폰트는 깨질 수 있습니다. 완벽한 변환을 보장하지 않습니다.</p>
+    <div class="upload-area" id="docx2pdf-drop">
+      <input type="file" id="docx2pdf-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+      <p>클릭하거나 .docx 파일을 여기에 드래그</p>
+    </div>
+    <p class="file-name" id="docx2pdf-name"></p>
+    <button id="docx2pdf-btn" disabled>PDF로 변환하기</button>
+    <div class="progress-wrap" id="docx2pdf-progress" hidden>
+      <progress id="docx2pdf-bar" value="0" max="100"></progress>
+      <span id="docx2pdf-pct">0%</span>
+    </div>
+    <div class="result" id="docx2pdf-result" hidden>
+      <a class="download-btn" id="docx2pdf-link" download="document.pdf">PDF 다운로드</a>
+    </div>
+  </section>
 </main>
 
 <footer class="site-footer">
@@ -115,6 +135,8 @@
 </footer>
 
 <script src="assets/js/pdf-lib.min.js"></script>
+<script src="assets/js/mammoth.browser.min.js"></script>
+<script src="assets/js/html2pdf.bundle.min.js"></script>
 <script type="module" src="assets/app.js"></script>
 </body>
 </html>
