@@ -21,6 +21,7 @@
     <button class="tab" data-tab="merge">PDF 합치기</button>
     <button class="tab" data-tab="split">PDF 분할</button>
     <button class="tab" data-tab="docx2pdf">DOCX → PDF</button>
+    <button class="tab" data-tab="hwp2pdf">HWP → PDF</button>
   </nav>
 
   <!-- 이미지 → PDF -->
@@ -122,6 +123,25 @@
     </div>
     <div class="result" id="docx2pdf-result" hidden>
       <a class="download-btn" id="docx2pdf-link" download="document.pdf">PDF 다운로드</a>
+    </div>
+  </section>
+
+  <!-- HWP → PDF -->
+  <section class="panel" id="tab-hwp2pdf">
+    <p class="panel-desc">한글 문서(.hwp)를 PDF로 변환합니다. 파일이 서버에 업로드되지 않습니다.</p>
+    <p class="caution">⚠️ 복잡한 서식, 표, 그림이 포함된 문서는 깨질 수 있습니다. 기본 텍스트 문서에 최적화되어 있습니다.</p>
+    <div class="upload-area" id="hwp2pdf-drop">
+      <input type="file" id="hwp2pdf-input" accept=".hwp" />
+      <p>클릭하거나 .hwp 파일을 여기에 드래그</p>
+    </div>
+    <p class="file-name" id="hwp2pdf-name"></p>
+    <button id="hwp2pdf-btn" disabled>PDF로 변환하기</button>
+    <div class="progress-wrap" id="hwp2pdf-progress" hidden>
+      <progress id="hwp2pdf-bar" value="0" max="100"></progress>
+      <span id="hwp2pdf-pct">0%</span>
+    </div>
+    <div class="result" id="hwp2pdf-result" hidden>
+      <a class="download-btn" id="hwp2pdf-link" download="document.pdf">PDF 다운로드</a>
     </div>
   </section>
 </main>

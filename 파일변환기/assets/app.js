@@ -303,6 +303,95 @@ document.getElementById('docx2pdf-btn').addEventListener('click', async () => {
   }
 });
 
+// ── 6. HWP → PDF ─────────────────────────────────────────────────────────────
+let hwp2pdfFile = null;
+let hwpjsModule = null;
+
+enableDrop(
+  document.getElementById('hwp2pdf-drop'),
+  document.getElementById('hwp2pdf-input'),
+  files => {
+    hwp2pdfFile = files.find(f => f.name.toLowerCase().endsWith('.hwp')) || null;
+    document.getElementById('hwp2pdf-name').textContent = hwp2pdfFile ? hwp2pdfFile.name : '';
+    document.getElementById('hwp2pdf-btn').disabled = !hwp2pdfFile;
+    document.getElementById('hwp2pdf-result').hidden = true;
+  }
+);
+
+document.getElementById('hwp2pdf-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('hwp2pdf-btn');
+  btn.disabled = true;
+  document.getElementById('hwp2pdf-progress').hidden = false;
+  setProgress('hwp2pdf-bar', 'hwp2pdf-pct', null, 5);
+
+  let styleEl = null;
+  let hpa = null;
+
+  try {
+    // 첫 사용 시 WASM lazy load (889KB)
+    if (!hwpjsModule) {
+      setProgress('hwp2pdf-bar', 'hwp2pdf-pct', null, 10);
+      hwpjsModule = await import('./js/hwpjs-bundle.js');
+    }
+
+    setProgress('hwp2pdf-bar', 'hwp2pdf-pct', null, 30);
+    const hwpBuffer = new Uint8Array(await hwp2pdfFile.arrayBuffer());
+
+    // HWP → HTML
+    setProgress('hwp2pdf-bar', 'hwp2pdf-pct', null, 50);
+    const rawHtml = hwpjsModule.toHtml(hwpBuffer).replace(/^DEBUG_.*\n/gm, '');
+
+    // toHtml()은 완전한 HTML 문서를 반환
+    // <style>은 document.head에 주입해야 html2canvas가 올바르게 인식함
+    const parsed = new DOMParser().parseFromString(rawHtml, 'text/html');
+    styleEl = document.createElement('style');
+    styleEl.textContent = Array.from(parsed.querySelectorAll('style')).map(s => s.textContent).join('\n');
+    document.head.appendChild(styleEl);
+
+    hpa = parsed.querySelector('.hpa');
+    if (!hpa) throw new Error('HWP 문서 구조를 인식할 수 없습니다');
+
+    // .hcD, .hcI가 position:absolute + 크기 없음 → 0×0 박스
+    // html2canvas가 0×0 박스 안으로 진입 못해 백지 출력되는 문제 해결
+    hpa.querySelectorAll('.hcD, .hcI').forEach(el => {
+      el.style.width = '210mm';
+      el.style.height = '297mm';
+    });
+
+    document.body.appendChild(hpa);
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    setProgress('hwp2pdf-bar', 'hwp2pdf-pct', null, 70);
+
+    const baseName = hwp2pdfFile.name.replace(/\.hwp$/i, '');
+    const pdfBlob = await html2pdf()
+      .set({
+        margin: 0,
+        filename: baseName + '.pdf',
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, width: hpa.offsetWidth, height: hpa.offsetHeight },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      })
+      .from(hpa)
+      .outputPdf('blob');
+
+    setProgress('hwp2pdf-bar', 'hwp2pdf-pct', null, 100);
+
+    const url = URL.createObjectURL(pdfBlob);
+    const link = document.getElementById('hwp2pdf-link');
+    link.href = url;
+    link.download = baseName + '.pdf';
+    document.getElementById('hwp2pdf-result').hidden = false;
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch (e) {
+    alert('변환 중 오류가 발생했습니다: ' + e.message);
+  } finally {
+    if (styleEl?.parentNode) document.head.removeChild(styleEl);
+    if (hpa?.parentNode) document.body.removeChild(hpa);
+    btn.disabled = false;
+  }
+});
+
 document.getElementById('split-btn').addEventListener('click', async () => {
   const btn = document.getElementById('split-btn');
   const rangeInput = document.getElementById('split-range').value.trim();

@@ -6,14 +6,14 @@
 
 | 프로젝트 | 설명 | 상태 | 배포 |
 |---|---|---|---|
-| [파일변환기](./파일변환기) | 이미지↔PDF, DOCX→PDF, PDF 합치기/분할, 브라우저에서만 처리 | 개발 중 (Phase 3) | [배포완료](https://change-file.mydannykim.workers.dev/) |
+| [파일변환기](./파일변환기) | 이미지↔PDF, DOCX→PDF, HWP→PDF, PDF 합치기/분할, 브라우저에서만 처리 | 개발 중 (Phase 4 예정) | [배포완료](https://change-file.mydannykim.workers.dev/) |
 
 ## 로드맵
 
 ### 파일변환기
 - [x] **Phase 1**: 이미지→PDF, PDF→이미지, PDF 합치기, PDF 분할
 - [x] **Phase 2**: DOCX→PDF (`mammoth.js` + `html2pdf.js`)
-- [ ] **Phase 3**: HWP→PDF — `@ohah/hwpjs` 스파이크 중
+- [x] **Phase 3**: HWP→PDF (`@ohah/hwpjs` WASM + html2pdf.js)
 - [ ] **Phase 4**: PPTX→PDF — 서버 필요 (VPS + LibreOffice headless)
 
 ## 운영 원칙

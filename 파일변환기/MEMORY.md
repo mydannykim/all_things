@@ -90,16 +90,58 @@
 
 ---
 
+---
+
+## 세션 3 — 2026-06-24
+
+### 한 일
+
+**Phase 3 — HWP → PDF 구현 완료**
+
+라이브러리: `@ohah/hwpjs` (Rust 기반 WASM, 브라우저 지원)
+
+흐름:
+```
+.hwp 파일 업로드 (Uint8Array)
+  → hwpjsModule.toHtml(hwpBuffer)      # HWP → 완전한 HTML 문서 (DEBUG 줄 제거)
+  → DOMParser로 파싱
+  → <style> 추출 → document.head 주입  # html2canvas가 스타일 인식
+  → .hpa 요소 추출 (A4 페이지 단위)
+  → .hcD, .hcI에 width/height 부여     # 핵심 버그 수정
+  → document.body에 추가 + 2×rAF 대기
+  → html2pdf().from(hpa).outputPdf()   # HTML → PDF
+  → Blob URL 다운로드
+```
+
+핵심 버그 및 해결:
+- `toHtml()` 반환값이 완전한 HTML 문서 → `container.innerHTML`에 넣으면 `<style>` 유실
+  → DOMParser로 파싱 후 `<style>`을 `document.head`에 따로 주입
+- `.hcD`, `.hcI`가 `position:absolute` + 크기 없음 → html2canvas가 0×0으로 보고 내용 건너뜀 → 백지 PDF
+  → `width:210mm; height:297mm` 강제 부여로 해결
+- WASM `SharedArrayBuffer` 필요 → `_headers` 파일로 COOP/COEP 헤더 적용
+
+추가 파일:
+- `assets/js/hwpjs-bundle.js` (472KB) — HWP 파서 번들
+- `assets/js/wasi-worker-browser.mjs` (434KB) — WASM 워커
+- `assets/js/hwpjs.wasm32-wasi.wasm` (889KB) — HWP 파서 바이너리
+- `_headers` — Cloudflare Pages COOP/COEP 설정
+
+구현 방식: 첫 사용 시 lazy import (`await import('./js/hwpjs-bundle.js')`) — 탭 진입 전엔 WASM 미로딩
+
+한계 (UI에 명시):
+- 복잡한 서식, 표, 그림 깨질 수 있음
+- 기본 텍스트 문서에 최적화
+
+---
+
 ## 다음 세션 목표
 
-### Phase 3 — HWP → PDF 스파이크
+### Phase 4 — PPTX → PDF (서버 필요)
+- Cloudflare Workers + LibreOffice headless 학습
+- 또는 VPS 배포 경험 쌓기
+- 클라이언트사이드 불가 확인됨 (유료 SDK 없이는 어려움)
 
-1. `@ohah/hwpjs` npm 설치
-2. 실제 HWP 파일로 브라우저 파싱 테스트
-3. 텍스트/표/이미지 추출 가능 여부 확인
-4. 가능 → 구현 / 불가능 → 보류
-
-### 그 외
+### SEO / 수익화
 - sitemap.xml 도메인 업데이트 (`REPLACE-WITH-YOUR-DOMAIN` → 실제 URL)
 - Google Search Console 등록
-- 애드센스 신청 (트래픽 쌓인 후)
+- 애드센스 신청 (트래픽 어느 정도 쌓인 후)
