@@ -1,7 +1,7 @@
 # 무료 PDF 변환기 — 배포 가이드
 
 서버 없이 브라우저(클라이언트)에서만 변환을 처리하는 정적 웹앱. 호스팅 비용 0원.
-배포 URL: https://change-file.mydannykim.workers.dev/
+배포 URL: https://all-things-4ch.pages.dev/
 
 ## 현재 기능 (탭 6개)
 

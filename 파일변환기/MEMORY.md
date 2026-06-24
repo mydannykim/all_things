@@ -60,7 +60,7 @@
 - `README.md` — 배포 가이드
 
 **2. Cloudflare Pages 배포 완료**
-- URL: https://change-file.mydannykim.workers.dev/
+- URL: https://all-things-4ch.pages.dev/
 - GitHub 연동, push 시 자동 배포
 
 **3. 움짤메이커 폴더 삭제**

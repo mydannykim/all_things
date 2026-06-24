@@ -32,6 +32,6 @@ http.server.HTTPServer(('',8080),H).serve_forever()
 
 ## 현재 상태
 - 파일변환기/: **개발 중 (Phase 4 예정)** — 배포완료
-  - 배포 URL: https://change-file.mydannykim.workers.dev/
+  - 배포 URL: https://all-things-4ch.pages.dev/
   - 완료: Phase 1 (PDF 4종), Phase 2 (DOCX→PDF), Phase 3 (HWP→PDF)
   - 로드맵: ideas/파일변환기_계획.md 참고
