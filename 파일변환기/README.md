@@ -20,7 +20,7 @@
 ├── privacy.html      개인정보처리방침
 ├── contact.html      문의 페이지
 ├── robots.txt
-├── sitemap.xml       ← REPLACE-WITH-YOUR-DOMAIN 치환 필요
+├── sitemap.xml
 └── assets/
     ├── style.css
     ├── app.js
@@ -64,10 +64,9 @@ Cloudflare Pages (GitHub 연동, push 시 자동 배포).
 - [x] privacy.html
 - [x] contact.html
 - [ ] 트래픽 어느 정도 쌓인 후 신청 (바로 신청 금지)
-- [ ] sitemap.xml 도메인 업데이트 후 Google Search Console 등록
+- [x] sitemap.xml 도메인 확정 + Google Search Console 등록 완료
 
 ## 다음 단계
 
 - Phase 4: PPTX → PDF — 서버 필요 (Cloudflare Workers + LibreOffice headless)
-- SEO: sitemap.xml 도메인 업데이트 → Google Search Console 등록
 - 애드센스 신청 (트래픽 쌓인 후)
